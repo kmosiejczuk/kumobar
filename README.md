@@ -1,0 +1,2 @@
+# kumobar
+lemonbar support script
