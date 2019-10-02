@@ -126,8 +126,7 @@ function Weather {
 function Wlan {
 	local WLANSTAT=$(ifconfig ${WIFI} | awk '/status:/ { print $2 }')
 	local WLANID=$(ifconfig ${WIFI}  | \
-		awk -F '(nwid|join|chan)' '/(nwid|join)/ { print $2 }' | \
-		awk '{ print $1 }' )
+		awk -F '(nwid |join | chan)' '/(nwid|join)/ { print $2 }' )
 	local WLANSIG=$(ifconfig ${WIFI} | grep ieee80211 | \
 		awk 'match($0, /-[0-9]*dBm/) \
 		{ print substr($0, RSTART, RLENGTH) }')
