@@ -21,6 +21,7 @@ RED="%{F#FF0000}${BACKGROUND}"
 GREEN="%{F#00FF00}${BACKGROUND}"
 YELLOW="%{F#FFFF00}${BACKGROUND}"
 ORANGE="%{F#FFA500}${BACKGROUND}"
+REVERSE="%{R}"
 COLOROFF="%{F-}%{B-}"
 
 # Magic hex characters to put the degrees symbol plus C for celsius
@@ -49,7 +50,7 @@ function Battery {
 		if [ $CHARGING = 2 ]; then
 			print -pn "${BPERCENT}%%"
 		else
-			print -pn "${RED}%{R}${BPERCENT}${BATTERY}%%${COLOROFF}"
+			print -pn "${RED}${REVERSE}${BPERCENT}${BATTERY}%%${COLOROFF}"
 		fi
 	fi
 	[[ "${BMINUTES}" != "unknown" ]] && print -pn \
