@@ -6,8 +6,14 @@
 # Heavily modified to "de-magic" the color strings and add more comments
 #
 
-# Your WiFi interface
+# WiFi interface
 WIFI="iwn0"
+
+# Wired Interface
+WIRED="em0"
+
+# Set this to the trunk interface if you are using the trunk wired/wifi trick
+TRUNK="trunk0"
 
 # Lemonbar magic strings for color
 BACKGROUND="%{B#000000}" # Black
@@ -146,6 +152,23 @@ function Wlan {
 	print -pn "${COLOROFF}"
 }
 
+function Wired {
+	print -pn "Network: wired"
+}
+
+function Network {
+	# find the ports in the trunk and the interface labelled as active
+	local ACTIVE_IFACE=$( ifconfig $TRUNK | grep port | grep active \
+		| awk '{ print $1 }' )
+	if [ x$ACTIVE_IFACE = x$WIRED ] ; then
+		Wired
+	elif [ x$ACTIVE_IFACE = x$WIFI ] ; then
+		Wlan
+	else
+		print -pn "Network: ${YELLOW}Unknown${COLOROFF}"
+	fi
+}
+
 # Start lemonbar as a corprocess
 # - Make its X name "lemonbar"
 # so the window manager can be configured to skip putting a border on it
@@ -187,7 +210,7 @@ while true ; do
 	Display
 	print -pn " | "
 
-	Wlan
+	Network
 	print -p ""
 
 	# Wait 5 seconds between updates
