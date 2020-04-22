@@ -106,9 +106,9 @@ function Music {
 }
 
 function Volume {
-	local MUTE=$(mixerctl outputs.master.mute | awk -F '=' '{ print $2 }')
-	local SPK="$(($(mixerctl outputs.master | awk -F '(=|,)' '{ print $2 }')*100/255))%%"
-	if [ "${MUTE}" = "on" ] ; then
+	local MUTE=$(sndioctl output.mute | awk -F '=' '{ print $2 }')
+	local SPK="$(sndioctl output.level | awk -F '=' '{ print $2 * 100 }')%%"
+	if [ "${MUTE}" = "1" ] ; then
 		SPK="mute"
 	else
 		print -pn "${GREEN}"
